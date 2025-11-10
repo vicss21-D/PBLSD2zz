@@ -236,7 +236,7 @@ ASM_Store:
     @ Assembles the instruction packet
 
     @ OPCODE
-    MOV     r2, #STORE_OPCODE
+    MOV     r2, #INSTR_STORE
 
     @ ADDRESS
     LSL     r3, r0, #3          
