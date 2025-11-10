@@ -94,7 +94,7 @@ int executar_algoritmo_teste() {
 
     // 2. Fazer polling (sondagem) da flag em C com TIMEOUT
     int timeout_c = 0;
-    while (Flag_Done() == 0) {
+    while (ASM_Get_Flag_Done() == 0) {
         usleep(100000); // Espera 100ms
         timeout_c++;
         
@@ -133,7 +133,7 @@ int main() {
 
     // --- 1. Inicializar a API ---
     printf("=== PASSO 1: Inicializando API (Lib) ===\n");
-    if (Lib() == (void*)-1 || Lib() == (void*)-2) {
+    if (API_initialize() == (void*)-1 || API_initialize() == (void*)-2) {
         printf("ERRO FATAL: API_initialize falhou. Verifique o sudo e o mmap.\n");
         free(image_data);
         return -1;
