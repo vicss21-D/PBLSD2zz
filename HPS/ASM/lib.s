@@ -258,7 +258,7 @@ ASM_Store:
     BNE     .CHECK_ERROR_WR
     SUBS    r5, r5, #1
     BNE     .WAIT_LOOP_WR
-    MOV     r0, #-2         @ Retorna -2 para TIMEOUT
+    MOV     r0, #0 @ Retorna -2 para TIMEOUT (CHECK LATER)
     B       .EXIT_WR
 
 .CHECK_ERROR_WR:
