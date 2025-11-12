@@ -321,34 +321,36 @@ soc_system u0 (
     .hps_0_f2h_debug_reset_req_reset_n     (~hps_debug_reset),          //      hps_0_f2h_debug_reset_req.reset_n
     .hps_0_f2h_cold_reset_req_reset_n      (~hps_cold_reset),            //       hps_0_f2h_cold_reset_req.reset_n
 	      			
-	 .pio_instruction_external_connection_export (instruction), 			// 	pio_instruction_external_connection.export
-	 .pio_control_external_connection_export     (control),     			//    pio_control_external_connection.export
-	 .pio_erdnmxmn_external_connection_export    (flags)     				//    pio_erdnmxmn_external_connection.export
+	 .pio_instruction_export (instruction), 			// 	pio_instruction_external_connection.export
+	 .pio_enable_export (enable),     			//    pio_enable_external_connection.export
+	 .pio_flags_export (flags)     				//    pio_flags_external_connection.export
 );
 
 wire [28:0] instruction;
-wire [1:0] control;
+wire enable;
 wire [3:0] flags;
 
 // INSTRUCTION DECODE
 
-wire [2:0] opcode = instruction [2:0];
+wire [2:0] opcode = instruction[2:0];
 wire [16:0] mem_addr = (opcode == 3'b010) ? instruction [19:3] : 17'b0; // GARANTE QUE OS BITS SEJAM 0, CASO NÃO SEJA UMA INSTRUÇÃO DE STR
-wire [7:0] data = (opcode == 3'b010 || opcode == 3'b001) ? instruction [27:20] : 8'b0; // GARANTE QUE OS BITS SEJAM 0, CASO NÃO SEJA UMA INSTRUÇÃO DE STR ou LDR
+wire [7:0] data = (opcode == 3'b010 || opcode == 3'b001) ? instruction [28:21] : 8'b0; // GARANTE QUE OS BITS SEJAM 0, CASO NÃO SEJA UMA INSTRUÇÃO DE STR ou LDR
+wire sel_mem = 1'b0;
 
 
 main main_inst (
 	.CLOCK_50(CLOCK_50),
 	.DATA_IN(data),
 	.INSTRUCTION(opcode),
-	.ENABLE(control[0]),
-	.SEL_MEM(control[1]),
+	.ENABLE(enable),
+	.SEL_MEM(sel_mem),
 	.MEM_ADDR(mem_addr),
 	
 	.FLAG_DONE(flags[0]),
 	.FLAG_ERROR(flags[1]),
 	.FLAG_ZOOM_MAX(flags[2]),
 	.FLAG_ZOOM_MIN(flags[3]),
+
 	
 	.VGA_R         (VGA_R),
    .VGA_B         (VGA_B),

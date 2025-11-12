@@ -132,7 +132,7 @@
          type = "String";
       }
    }
-   element pio_CONTROL
+   element pio_ENABLE
    {
       datum _sortIndex
       {
@@ -140,7 +140,7 @@
          type = "int";
       }
    }
-   element pio_CONTROL.s1
+   element pio_ENABLE.s1
    {
       datum baseAddress
       {
@@ -148,7 +148,7 @@
          type = "String";
       }
    }
-   element pio_ErDnMxMn
+   element pio_FLAGS
    {
       datum _sortIndex
       {
@@ -156,7 +156,7 @@
          type = "int";
       }
    }
-   element pio_ErDnMxMn.s1
+   element pio_FLAGS.s1
    {
       datum baseAddress
       {
@@ -249,17 +249,17 @@
  <interface name="hps_0_hps_io" internal="hps_0.hps_io" type="conduit" dir="end" />
  <interface name="memory" internal="hps_0.memory" type="conduit" dir="end" />
  <interface
-   name="pio_control_external_connection"
-   internal="pio_CONTROL.external_connection"
+   name="pio_enable"
+   internal="pio_ENABLE.external_connection"
    type="conduit"
    dir="end" />
  <interface
-   name="pio_erdnmxmn_external_connection"
-   internal="pio_ErDnMxMn.external_connection"
+   name="pio_flags"
+   internal="pio_FLAGS.external_connection"
    type="conduit"
    dir="end" />
  <interface
-   name="pio_instruction_external_connection"
+   name="pio_instruction"
    internal="pio_INSTRUCTION.external_connection"
    type="conduit"
    dir="end" />
@@ -887,11 +887,7 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
- <module
-   name="pio_CONTROL"
-   kind="altera_avalon_pio"
-   version="23.1"
-   enabled="1">
+ <module name="pio_ENABLE" kind="altera_avalon_pio" version="23.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
@@ -903,13 +899,9 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="2" />
+  <parameter name="width" value="1" />
  </module>
- <module
-   name="pio_ErDnMxMn"
-   kind="altera_avalon_pio"
-   version="23.1"
-   enabled="1">
+ <module name="pio_FLAGS" kind="altera_avalon_pio" version="23.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
@@ -988,7 +980,7 @@
    kind="avalon"
    version="23.1"
    start="hps_0.h2f_lw_axi_master"
-   end="pio_CONTROL.s1">
+   end="pio_ENABLE.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0010" />
   <parameter name="defaultConnection" value="false" />
@@ -997,7 +989,7 @@
    kind="avalon"
    version="23.1"
    start="hps_0.h2f_lw_axi_master"
-   end="pio_ErDnMxMn.s1">
+   end="pio_FLAGS.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0020" />
   <parameter name="defaultConnection" value="false" />
@@ -1064,8 +1056,8 @@
    version="23.1"
    start="clk_0.clk"
    end="pio_INSTRUCTION.clk" />
- <connection kind="clock" version="23.1" start="clk_0.clk" end="pio_CONTROL.clk" />
- <connection kind="clock" version="23.1" start="clk_0.clk" end="pio_ErDnMxMn.clk" />
+ <connection kind="clock" version="23.1" start="clk_0.clk" end="pio_ENABLE.clk" />
+ <connection kind="clock" version="23.1" start="clk_0.clk" end="pio_FLAGS.clk" />
  <connection
    kind="clock"
    version="23.1"
@@ -1134,12 +1126,12 @@
    kind="reset"
    version="23.1"
    start="clk_0.clk_reset"
-   end="pio_CONTROL.reset" />
+   end="pio_ENABLE.reset" />
  <connection
    kind="reset"
    version="23.1"
    start="clk_0.clk_reset"
-   end="pio_ErDnMxMn.reset" />
+   end="pio_FLAGS.reset" />
  <connection
    kind="reset"
    version="23.1"
